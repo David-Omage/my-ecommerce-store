@@ -91,4 +91,5 @@ Vanilla only, no frameworks. styles.css order: tokens->base->buttons->header->he
 | 2026-10-01 | v0.8 | Router + category hub/detail + pager | app.js, index.html, styles.css, README.md |
 | 2026-10-01 | v0.9 | Cart/wishlist/account/checkout/confirm clean arch | js/* (11 files), index.html, styles.css, README.md |
 | 2026-10-01 | v1.0 | Account tabs + full checkout + rich confirm | index.html, js/account.js, js/checkout.js, js/router.js, styles.css, README.md |
+| 2026-10-01 | v1.0 commit | git init + root commit dbb30c4 (16 files, 1292 insertions) | .git, all tracked |
 
