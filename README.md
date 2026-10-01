@@ -1,7 +1,7 @@
 # ⚡ VoltEdge — Modern Electronics Store
 
 > Polished responsive storefront for premium electronics.
-> **Status:** Frontend design only (no backend, checkout, auth yet).
+> **Status:** v1.3 — Supabase connected via env vars (`.env` → `js/env.js`). Project reachable; schema still to be applied before live data flows — see **[SUPABASE_SETUP.md](SUPABASE_SETUP.md)**.
 > **Preview:** `http://localhost:8000/` via `python -m http.server 8000`
 
 ## Contents
@@ -24,13 +24,38 @@ Keep alive: `Start-Process python -ArgumentList '-m','http.server','8000'`. Stop
 ```
 index.html   # structure, sections in order below
 styles.css   # tokens, components, responsive
-app.js       # demo data only: PRODUCTS, card(), drawer/toast/countdown
+js/          # app modules (load order: config, supabase, data, api, store, ui, shop, cart, account, checkout, router, app)
+  config.js  # reads window.__ENV__ -> RATE/DISCOUNT/PER/FREE_SHIP + SUPABASE_URL/ANON_KEY/USE_SUPABASE
+  supabase.js# creates window.SB only when USE_SUPABASE=true (else silent MOCK)
+  data.js    # MOCK_PRODUCTS (24) + MOCK_MORE + CATS (11)
+  api.js     # Api.products/product/createOrder/orders - MOCK or Supabase
+  store.js   # cart/wishlist/user state (ve_cart/ve_wish/ve_user)
+  ui.js      # card(), moneyUSD(), fmtN(), badges()
+  shop.js cart.js account.js checkout.js router.js app.js  # features + boot
+env.js     # GENERATED from .env by scripts/build-env.mjs (git-ignored) -> window.__ENV__
+scripts/     # build-env.mjs (.env -> js/env.js), check-supabase.mjs, check-config.mjs, load-env.mjs
+.env.example # template for SUPABASE_URL + SUPABASE_PUBLISHABLE_KEY (copy to .env; .env is git-ignored)
+supabase/migrations/0001_init.sql # schema + RLS + create_order RPC (paste into SQL editor)
+supabase/seed.sql        # 24-product catalog seed (generated) - run AFTER the migration
+supabase/gen_seed.mjs    # node script: rebuilds seed.sql from js/data.js
+SUPABASE_SETUP.md        # step-by-step guide: connect this app to your Supabase project
+app.js       # legacy root file - DEAD (not loaded by index.html); kept for history
 design-system.md # cheat-sheet (README is canonical)
 README.md    # this file - update every task
+.gitignore   # OS/editor + .env + js/env.js + supabase temp
 ```
 Order: announce -> header (.header-inner + .category-row) -> hero (.hero-grid + .perks) -> #categories (.cat-grid) -> #deals (.deals + #dealRow) -> #products (.filter-row + #gridProducts) -> promo-grid -> #brands -> .rev-grid -> #support .news -> footer -> mobile-nav + overlay + drawer + toast.
 
 ## 4. Changelog
+### v1.3 Supabase connected (env-based)
+Added an env-var layer: `.env.example` (template) + `scripts/load-env.mjs` + `scripts/build-env.mjs` (writes the git-ignored `js/env.js` = `window.__ENV__`), and rewrote js/config.js to read window.__ENV__ while keeping the exact same APP_CONFIG shape - so js/supabase.js, js/api.js and the UI are untouched. index.html now loads js/env.js just before js/config.js. Added scripts/check-supabase.mjs (non-destructive live PASS/FAIL probe of products/categories/brands/orders + the create_order RPC) and scripts/check-config.mjs (offline wiring self-test, 11 assertions). Credentials now live only in .env; .env and js/env.js are git-ignored, and build-env refuses service_role / sb_secret_ keys. Verified live: the publishable key is valid (PostgREST responded) but the tables are not created yet, so applying supabase/migrations/0001_init.sql is the remaining step.
+
+### v1.2 Supabase connection kit
+Added supabase/seed.sql (24 products / 10 categories / 20 brands, ids 1-24 matching js/data.js, with setval guards) plus supabase/gen_seed.mjs which regenerates it straight from js/data.js so the live catalog matches MOCK exactly. Wrote SUPABASE_SETUP.md: a 6-step guide (get URL+anon key -> run 0001_init.sql -> run seed.sql -> fill js/config.js -> verify via console/Network/orders table -> optional Auth) with a troubleshooting table and a one-line MOCK rollback. Verified the supabase-js UMD CDN path used in index.html (dist/umd/supabase.js) resolves and contains createClient. No component code changed - connecting is just two values in js/config.js.
+
+### v1.1 Supabase wiring (no DB provisioned yet)
+Added the supabase-js UMD loader + js/supabase.js (creates window.SB only when USE_SUPABASE=true, else silent MOCK). js/api.js is now USE_SUPABASE-aware: live products/product queries with a snake_case->camelCase row mapper (nested categories(slug)/brands(name)) and MOCK fallback on any error; createOrder calls the create_order RPC and falls back to localStorage. js/app.js hydrates the grids from Api.products() when live. Wrote supabase/migrations/0001_init.sql (11 tables + RLS + SECURITY DEFINER create_order) for review. Bug fixes: hero data-add now ="1" (was adding undefined); duplicate IDs searchInput/brandSel/priceSel/sortSel/shopCount in #view-shop renamed to *2 with Shop.bind()/syncControls() driving both bars; shipping radio values aligned to labels (4410/10080). Added .gitignore.
+
 ### v0.7 catalog browsing (new categories, no redesign)
 24 products (was 8). Added TVs (3: 55 QLED, 65 bundle, soundbar), Cameras (4: mirrorless, action, drone, lens), Accessories (2 new: MagDock, hub), Smart Home (3 new: SecureCam, doorbell, LED), Networking (3: AX6000, mesh 3-pack, switch) + AeroBook. Same .p-card/.chip/.grid tokens, same ₦ fmt+DISCOUNT. New: #searchInput, #brandSel (auto from b), #priceSel range 39-2500, #sortSel pop/low/high/rating, #shopCount, #shopFilters data-cat, #clearFilters, .shop-bar styles, .cat data-goto jump. Deals row now TVs/cameras slice. Verified: node --check OK, 24 PRODUCTS, shop render true.
 ### v0.1 scaffold
@@ -72,11 +97,16 @@ Buttons: .btn .btn-primary(glow) .btn-ghost .btn-dark .btn-sm/.btn-lg. Chips: .c
 Vanilla only, no frameworks. styles.css order: tokens->base->buttons->header->hero->perks->cards->promo/reviews/news->footer->overlays->responsive. Kebab classes, state .active/.open/.show/.on. Use vars never hardcode. app.js demo only: PRODUCTS {n,c,p,o,r,f,img} USD, card()+fmt(), no fetch/storage. Images Unsplash w400-900 q70 lazy (hero eager), logos Wikimedia gray 60%. Keep alt/aria-label.
 
 ## 10. Next steps
-- [ ] product.html reusing header/footer/p-card
-- [ ] filters functional by c in app.js
-- [ ] real cart localStorage + #subTotal fmt() + qty
-- [ ] search + CmdK focus
-- [ ] checkout/newsletter validation + Paystack/Flutterwave badges
+- [x] real cart localStorage + #subTotal fmt() + qty (v0.9)
+- [x] filters/search/sort/pager (v0.7-v0.8)
+- [x] checkout + newsletter validation (v1.0)
+- [x] write schema + RLS + create_order RPC (supabase/migrations/0001_init.sql)
+- [x] write seed catalog + generator + setup guide (supabase/seed.sql, supabase/gen_seed.mjs, SUPABASE_SETUP.md)
+- [ ] provision Supabase project: run 0001_init.sql then seed.sql (see SUPABASE_SETUP.md) - REQUIRED before live data flows
+- [x] env-based Supabase config (.env + scripts/build-env.mjs) + connectivity/self-test scripts
+- [ ] replace mock auth in js/account.js with supabase.auth (magic link / OTP)
+- [ ] wire wishlist + profile + order history reads to Supabase (owner RLS)
+- [ ] add #/404 route + real Paystack/Flutterwave payment init
 
 ## 11. Log (update every task)
 | Date | Ver | Change | Files |
@@ -92,4 +122,7 @@ Vanilla only, no frameworks. styles.css order: tokens->base->buttons->header->he
 | 2026-10-01 | v0.9 | Cart/wishlist/account/checkout/confirm clean arch | js/* (11 files), index.html, styles.css, README.md |
 | 2026-10-01 | v1.0 | Account tabs + full checkout + rich confirm | index.html, js/account.js, js/checkout.js, js/router.js, styles.css, README.md |
 | 2026-10-01 | v1.0 commit | git init + root commit dbb30c4 (16 files, 1292 insertions) | .git, all tracked |
+| 2026-10-01 | v1.1 | Supabase SDK + api swap + migration (review-only); hero/dup-ID/shipping fixes | index.html, js/supabase.js, js/api.js, js/shop.js, js/app.js, js/checkout.js, js/config.js, supabase/migrations/0001_init.sql, .gitignore, README.md, design-system.md |
+| 2026-10-01 | v1.2 | Seed catalog + generator + SUPABASE_SETUP.md connect guide | supabase/seed.sql, supabase/gen_seed.mjs, SUPABASE_SETUP.md, README.md |
+| 2026-10-01 | v1.3 | Env-var Supabase config (.env -> js/env.js) + live connectivity & config self-tests | .env.example, scripts/build-env.mjs, scripts/load-env.mjs, scripts/check-supabase.mjs, scripts/check-config.mjs, js/config.js, index.html, .gitignore, SUPABASE_SETUP.md, README.md |
 

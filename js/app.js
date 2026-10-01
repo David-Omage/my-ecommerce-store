@@ -4,6 +4,14 @@ const dealRow=document.getElementById("dealRow");
 if(dealRow)dealRow.innerHTML=window.MOCK_PRODUCTS.slice(8,13).map(p=>window.UI.card(p)).join("");
 window.Shop.bind();window.Cart.bind();window.Account.bind();window.Checkout.bind();window.Router.bind();
 window.Shop.render();window.UI.badges();window.Cart.render();
+// Live data hydration — swaps MOCK for Supabase rows when configured (no-op otherwise).
+window.Api.products().then(list=>{
+if(Array.isArray(list)&&list!==window.MOCK_PRODUCTS){
+window.MOCK_PRODUCTS=list;window.PRODUCTS=list;window.Shop.list=list;
+const dr=document.getElementById("dealRow");if(dr)dr.innerHTML=list.slice(8,13).map(p=>window.UI.card(p)).join("");
+window.Shop.render();window.UI.badges();window.Cart.render();
+}
+}).catch(e=>console.warn("[VoltEdge] product hydration failed:",e));
 // countdown (home deals)
 let s=14*3600+32*60+10;setInterval(()=>{s=Math.max(0,s-1);
 const h=String(Math.floor(s/3600)).padStart(2,"0"),m=String(Math.floor(s%3600/60)).padStart(2,"0"),ss=String(s%60).padStart(2,"0");

@@ -1,4 +1,15 @@
 // VoltEdge config — single place for env-like settings.
-// Next stage: replace MOCK with Supabase URL + anon key, keep same Api surface.
-window.APP_CONFIG={RATE:1400,DISCOUNT:0.9,PER:8,FREE_SHIP:124740,
-SUPABASE_URL:"",SUPABASE_ANON_KEY:"",USE_SUPABASE:false};
+// Live Supabase credentials are injected at build time by scripts/build-env.mjs
+// into js/env.js (git-ignored) as window.__ENV__, so no key is ever committed.
+// Everything downstream (js/supabase.js, js/api.js, the UI) keeps reading the
+// same window.APP_CONFIG shape — only the source of the two Supabase values moved.
+// With no credentials present the app stays 100% on MOCK data.
+(function(){
+  var env=window.__ENV__||{};
+  var url=env.SUPABASE_URL||"";
+  var key=env.SUPABASE_PUBLISHABLE_KEY||env.SUPABASE_ANON_KEY||"";
+  // USE_SUPABASE is explicit when set, otherwise auto-on once both values exist.
+  var use=env.USE_SUPABASE!=null?String(env.USE_SUPABASE)!=="false":!!(url&&key);
+  window.APP_CONFIG={RATE:1400,DISCOUNT:0.9,PER:8,FREE_SHIP:124740,
+    SUPABASE_URL:url,SUPABASE_ANON_KEY:key,USE_SUPABASE:!!(use&&url&&key)};
+})();

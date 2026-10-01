@@ -1,0 +1,18 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# Secrets — the Supabase anon key is public, but NEVER commit service_role keys
+.env
+.env.*
+!.env.example
+
+# Generated at build time from .env (holds the publishable key) — never commit
+js/env.js
+
+# Supabase CLI local state
+supabase/.temp/
+supabase/.branches/

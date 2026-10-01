@@ -85,7 +85,7 @@
 <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=900&q=80&auto=format&fit=crop" alt="Quantum X laptop" />
 <div class="hero-price">
 <div><small>Quantum X 14" OLED • 32GB</small><strong>₦2,392,740 <s>₦3,148,740</s></strong></div>
-<button class="btn btn-primary" data-add>Add to cart</button>
+<button class="btn btn-primary" data-add="1">Add to cart</button>
 </div>
 </div>
 <div class="float float-1">🎧 <div><strong>Aura Buds Pro</strong><span>₦162,540 • 4.9★</span></div></div>
@@ -173,12 +173,12 @@
 <img id="catImg" alt="category" />
 </div>
 <div class="shop-bar">
-<input id="searchInput" type="search" placeholder="Search TVs, cameras, routers…" aria-label="Search catalog" />
-<select id="brandSel" aria-label="Brand"><option value="All">All brands</option></select>
-<label id="priceSel">Max price <input type="range" min="39" max="2500" value="2500" step="10" /> <span></span></label>
-<select id="sortSel" aria-label="Sort"><option value="pop">Sort: Popular</option><option value="low">Price: Low → High</option><option value="high">Price: High → Low</option><option value="rating">Top rated</option></select>
+<input id="searchInput2" type="search" placeholder="Search TVs, cameras, routers…" aria-label="Search catalog" />
+<select id="brandSel2" aria-label="Brand"><option value="All">All brands</option></select>
+<label id="priceSel2">Max price <input type="range" min="39" max="2500" value="2500" step="10" /> <span></span></label>
+<select id="sortSel2" aria-label="Sort"><option value="pop">Sort: Popular</option><option value="low">Price: Low → High</option><option value="high">Price: High → Low</option><option value="rating">Top rated</option></select>
 </div>
-<p id="shopCount" class="shop-count"></p>
+<p id="shopCount2" class="shop-count"></p>
 <div class="filter-row" id="shopFilters2">
 <button class="chip active" data-cat="All">All</button><button class="chip" data-cat="Laptops">Laptops</button><button class="chip" data-cat="Phones">Phones</button><button class="chip" data-cat="Audio">Audio</button><button class="chip" data-cat="Wearables">Wearables</button><button class="chip" data-cat="Gaming">Gaming</button><button class="chip" data-cat="TVs">TVs</button><button class="chip" data-cat="Cameras">Cameras</button><button class="chip" data-cat="Accessories">Accessories</button><button class="chip" data-cat="Smart Home">Smart Home</button><button class="chip" data-cat="Networking">Networking</button>
 </div>
@@ -267,7 +267,7 @@
 <form class="co-form" id="coForm" onsubmit="return false">
 <div class="co-card" data-step="1"><h3>1 • Customer / contact information</h3><div class="co-row"><input name="name" required placeholder="Full name" autocomplete="name" /><input name="phone" required placeholder="Phone (080…)" autocomplete="tel" /></div><input name="email" type="email" required placeholder="Email" autocomplete="email" /><small class="hint">Receipt + tracking go here. Mock auth prefills if signed in.</small></div>
 <div class="co-card" data-step="1"><h3>Delivery / shipping address</h3><input name="address" required placeholder="Street address" autocomplete="street-address" /><div class="co-row"><input name="city" required placeholder="City (Lagos)" /><select name="state"><option>Lagos</option><option>Abuja FCT</option><option>Rivers</option><option>Oyo</option><option>Kano</option></select></div><label class="radio"><input type="checkbox" name="saveAddr" checked /> Save to my addresses</label><div id="addrPick"></div></div>
-<div class="co-card" data-step="2"><h3>2 • Delivery method</h3><label class="radio"><input type="radio" name="ship" value="0" checked /> Standard (3–5 days) — Free over ₦124,740</label><label class="radio"><input type="radio" name="ship" value="3500" /> Express (24h metro) — ₦4,410</label><label class="radio"><input type="radio" name="ship" value="8000" /> Same-day Lagos — ₦10,080</label><input name="note" placeholder="Delivery note (gate, landmark) — optional" /></div>
+<div class="co-card" data-step="2"><h3>2 • Delivery method</h3><label class="radio"><input type="radio" name="ship" value="0" checked /> Standard (3–5 days) — Free over ₦124,740</label><label class="radio"><input type="radio" name="ship" value="4410" /> Express (24h metro) — ₦4,410</label><label class="radio"><input type="radio" name="ship" value="10080" /> Same-day Lagos — ₦10,080</label><input name="note" placeholder="Delivery note (gate, landmark) — optional" /></div>
 <div class="co-card mockpay" data-step="3"><h3>3 • Payment method <span class="pill warn">MOCK — no real charge</span></h3><p class="hint">Clearly marked mock step. Supabase + Paystack replaces this next stage.</p><label class="radio"><input type="radio" name="pay" value="card" checked /> Card / Transfer (mock Paystack)</label><div class="co-row" id="mockCard"><input name="cardnum" inputmode="numeric" placeholder="Card 0000 0000 0000 0000" /><input name="exp" placeholder="MM/YY + CVV" /></div><label class="radio"><input type="radio" name="pay" value="pod" /> Pay on delivery</label><input name="coupon" id="coupon" placeholder="Coupon (try VOLT10)" /></div>
 <div class="co-card" data-step="4"><h3>4 • Final order review</h3><div id="reviewBox"></div></div>
 <p class="form-err" id="coErr"></p>
@@ -304,7 +304,10 @@
 </div>
 </section>
 <div class="toast" id="toast">Added to cart ✓</div>
+<script src="js/env.js"></script>
 <script src="js/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase.js"></script>
 <script src="js/data.js"></script>
 <script src="js/api.js"></script>
 <script src="js/store.js"></script>

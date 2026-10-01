@@ -34,5 +34,8 @@ Modern electronics retailer — frontend only.
 - <=640px: hamburger + bottom nav, hide searchbar, 2-col products/categories, promos stack, drawer full-width
 
 ## Files
-- index.html (structure) / styles.css (system) / app.js (visual demo data only)
+- index.html (structure) / styles.css (system) / js/* (app modules)
+- js/config.js + js/supabase.js + js/api.js = data layer (MOCK <-> Supabase swap point)
+- supabase/migrations/0001_init.sql = backend schema (review-only, not yet applied)
+- app.js (root) is legacy/dead - not loaded by index.html
 - Open index.html directly in browser — no build step.

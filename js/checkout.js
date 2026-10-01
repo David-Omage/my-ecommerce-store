@@ -1,8 +1,8 @@
 // Checkout: info/address/method/summary/mock-pay/review + confirm filling.
 window.Checkout={
-shipOpts:[{v:"0",t:"Standard (3–5 days)"},{v:"3500",t:"Express (24h metro)"},{v:"8000",t:"Same-day Lagos"}],
-shipLabel(v){return v==="8000"?"Same-day Lagos":v==="3500"?"Express (24h)":"Standard (3–5 days)";},
-eta(v){const d=new Date();d.setDate(d.getDate()+(v==="8000"?0:v==="3500"?1:4));return d.toLocaleDateString("en-NG",{weekday:"long",day:"numeric",month:"long"});},
+shipOpts:[{v:"0",t:"Standard (3–5 days)"},{v:"4410",t:"Express (24h metro)"},{v:"10080",t:"Same-day Lagos"}],
+shipLabel(v){return v==="10080"?"Same-day Lagos":v==="4410"?"Express (24h)":"Standard (3–5 days)";},
+eta(v){const d=new Date();d.setDate(d.getDate()+(v==="10080"?0:v==="4410"?1:4));return d.toLocaleDateString("en-NG",{weekday:"long",day:"numeric",month:"long"});},
 render(){const S=window.Store,U=window.UI;const lines=S.cartLines();
 document.getElementById("coItems").innerHTML=lines.length?lines.map(l=>`<div class="d-item"><img src="${l.img}"><div><b style="font-size:.85rem">${l.n} × ${l.qty}</b></div><b>${U.fmtN(l.p*window.APP_CONFIG.RATE*window.APP_CONFIG.DISCOUNT*l.qty)}</b></div>`).join(""):"Cart empty.";
 const u=S.user;const f=document.getElementById("coForm");
