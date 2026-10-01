@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VoltEdge — Modern Electronics Store</title>
+<meta name="description" content="VoltEdge — Laptops, phones, audio, wearables & smart home. Premium electronics with 2-year warranty." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563EB'/><path d='M55 18 L28 56 h18 L45 82 L72 44 H54 Z' fill='white'/></svg>">
+</head>
+<body data-view="home">
+<!-- ANNOUNCEMENT -->
+<div class="announce">
+<p><span class="dot"></span> Mega Tech Fest — Up to 40% off + Free Express Shipping over ₦124,740 <a href="#/deals">Shop deals →</a></p>
+</div>
+
+<!-- HEADER -->
+<header class="header" id="header">
+<div class="container header-inner">
+<button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+<a href="#/" class="logo"><span class="logo-mark">⚡</span> Volt<span>Edge</span></a>
+<nav class="main-nav">
+<a href="#/" data-nav="home">Home</a>
+<a href="#/categories" data-nav="categories">Categories</a>
+<a href="#/deals" data-nav="deals">Deals</a>
+<a href="#/shop" data-nav="shop">Shop All</a>
+<a href="#/brands" data-nav="brands">Brands</a>
+<a href="#/support" data-nav="support">Support</a>
+</nav>
+<div class="searchbar">
+<span>⌕</span>
+<input id="headerSearch" type="search" placeholder="Search laptops, headphones, cameras…" aria-label="Search products" />
+<kbd>⌘K</kbd>
+</div>
+<div class="header-actions">
+<button class="icon-btn" id="accountBtn" aria-label="Account" title="Account">◉</button>
+<button class="icon-btn badge" id="wishBtn" aria-label="Wishlist">♡<i id="wishCount">0</i></button>
+<button class="icon-btn badge cart-btn" id="cartBtn" aria-label="Cart">🛒<i id="cartCount">0</i></button>
+<button class="btn btn-primary btn-sm header-cta" id="signinBtn">Sign in</button>
+</div>
+</div>
+<div class="container category-row">
+<button class="chip chip-dark" data-navcat="All">⚡ All Deals</button>
+<button class="chip" data-navcat="Laptops">Laptops</button>
+<button class="chip" data-navcat="Phones">Smartphones</button>
+<button class="chip" data-navcat="Audio">Audio</button>
+<button class="chip" data-navcat="Wearables">Wearables</button>
+<button class="chip" data-navcat="Gaming">Gaming</button>
+<button class="chip" data-navcat="Smart Home">Smart Home</button>
+<button class="chip" data-navcat="Accessories">Accessories</button>
+<span class="ship-note">🚚 Free delivery in 24h in metro areas</span>
+</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container hero-grid">
+<div class="hero-copy">
+<div class="eyebrow"><span class="pulse"></span> NEW • Quantum X Ultra Book 2026</div>
+<h1>Power that moves <em>at your speed.</em></h1>
+<p class="lead">Flagship laptops, phones & audio — curated, tested and backed by a 2-year VoltEdge warranty. 4.9★ from 48k reviews.</p>
+<div class="hero-cta">
+<a href="#/shop" class="btn btn-primary btn-lg">Shop new arrivals →</a>
+<a href="#/deals" class="btn btn-ghost btn-lg">▶ Watch film</a>
+</div>
+<div class="hero-meta">
+<div><strong>48k+</strong><span>Happy customers</span></div>
+<div><strong>4.9/5</strong><span>★ ★ ★ ★ ★ reviews</span></div>
+<div><strong>2-Yr</strong><span>Free warranty</span></div>
+</div>
+<div class="hero-trust">
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Visa_Logo.png" alt="visa" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="mc" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="apple" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg" alt="samsung" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/Sony_logo.svg" alt="sony" />
+</div>
+</div>
+<div class="hero-visual">
+<div class="hero-card-main">
+<div class="hero-tag">-25% LAUNCH OFFER</div>
+<img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=900&q=80&auto=format&fit=crop" alt="Quantum X laptop" />
+<div class="hero-price">
+<div><small>Quantum X 14" OLED • 32GB</small><strong>₦2,392,740 <s>₦3,148,740</s></strong></div>
+<button class="btn btn-primary" data-add>Add to cart</button>
+</div>
+</div>
+<div class="float float-1">🎧 <div><strong>Aura Buds Pro</strong><span>₦162,540 • 4.9★</span></div></div>
+<div class="float float-2">⌚ <div><strong>Pulse Fit S</strong><span>21-day battery</span></div></div>
+<div class="float float-3"><span class="ok">✓</span><div><strong>In stock</strong><span>Ships in 24h</span></div></div>
+</div>
+</div>
+</section>
+<div class="container perks">
+<div class="perk"><i>🚚</i><div><b>Free Express Shipping</b><small>On orders over ₦124,740</small></div></div>
+<div class="perk"><i>🛡️</i><div><b>2-Year Warranty</b><small>On every device</small></div></div>
+<div class="perk"><i>↩️</i><div><b>30-Day Returns</b><small>No questions asked</small></div></div>
+<div class="perk"><i>💬</i><div><b>24/7 Expert Support</b><small>Real humans, fast</small></div></div>
+</div>
+<section class="section" id="categories">
+<div class="container">
+<div class="section-head">
+<div><span class="eyebrow">Browse</span><h2>Shop by category</h2><p>Ten curated departments. Every product tested by our lab.</p></div>
+<a href="#/categories" class="btn btn-ghost">View all →</a>
+</div>
+<div class="cat-grid">
+<div class="cat" data-goto="Laptops"><img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&q=70&auto=format&fit=crop" alt="Laptops"><div><strong>Laptops</strong><span>124 products</span></div></div>
+<div class="cat" data-goto="Phones"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&q=70&auto=format&fit=crop" alt="Phones"><div><strong>Smartphones</strong><span>86 products</span></div></div>
+<div class="cat" data-goto="Audio"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=70&auto=format&fit=crop" alt="Audio"><div><strong>Audio</strong><span>210 products</span></div></div>
+<div class="cat" data-goto="Wearables"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=70&auto=format&fit=crop" alt="Wearables"><div><strong>Wearables</strong><span>74 products</span></div></div>
+<div class="cat" data-goto="Gaming"><img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=400&q=70&auto=format&fit=crop" alt="Gaming"><div><strong>Gaming</strong><span>152 products</span></div></div>
+<div class="cat" data-goto="Smart Home"><img src="https://images.unsplash.com/photo-1558089687-f282ffcbc126?w=400&q=70&auto=format&fit=crop" alt="Smart"><div><strong>Smart Home</strong><span>98 products</span></div></div>
+<div class="cat" data-goto="TVs"><img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&q=70&auto=format&fit=crop" alt="TVs"><div><strong>TVs & Entertainment</strong><span>64 products</span></div></div>
+<div class="cat" data-goto="Cameras"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&q=70&auto=format&fit=crop" alt="Cameras"><div><strong>Cameras</strong><span>58 products</span></div></div>
+<div class="cat" data-goto="Accessories"><img src="https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400&q=70&auto=format&fit=crop" alt="Acc"><div><strong>Accessories</strong><span>132 products</span></div></div>
+<div class="cat" data-goto="Networking"><img src="https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=400&q=70&auto=format&fit=crop" alt="Net"><div><strong>Networking</strong><span>47 products</span></div></div>
+</div>
+</div>
+</section>
+<section id="deals">
+<div class="container">
+<div class="deals">
+<span class="eyebrow">⚡ Flash deals ends in</span>
+<h2 style="margin-top:12px;font-size:clamp(1.6rem,3vw,2.2rem)">Tech Fest: up to 40% off</h2>
+<div class="count"><div><strong id="hh">14</strong><span>Hours</span></div><div><strong id="mm">32</strong><span>Mins</span></div><div><strong id="ss">10</strong><span>Secs</span></div></div>
+<div class="deal-row" id="dealRow"></div>
+</div>
+</div>
+</section>
+<section class="section" id="products">
+<div class="container">
+<div class="section-head">
+<div><span class="eyebrow">Shop catalog</span><h2>Browse all products</h2><p>Search, filter by category, brand and price, then sort. All prices in ₦ (10% promo applied).</p></div>
+<button class="btn btn-ghost" id="clearFilters">Clear filters ✕</button>
+</div>
+<div class="shop-bar">
+<input id="searchInput" type="search" placeholder="Search TVs, cameras, routers…" aria-label="Search catalog" />
+<select id="brandSel" aria-label="Brand"><option value="All">All brands</option></select>
+<label id="priceSel">Max price <input type="range" min="39" max="2500" value="2500" step="10" /> <span></span></label>
+<select id="sortSel" aria-label="Sort"><option value="pop">Sort: Popular</option><option value="low">Price: Low → High</option><option value="high">Price: High → Low</option><option value="rating">Top rated</option></select>
+</div>
+<p id="shopCount" class="shop-count"></p>
+<div class="filter-row" id="shopFilters">
+<button class="chip active" data-cat="All">All</button><button class="chip" data-cat="Laptops">Laptops</button><button class="chip" data-cat="Phones">Phones</button><button class="chip" data-cat="Audio">Audio</button><button class="chip" data-cat="Wearables">Wearables</button><button class="chip" data-cat="Gaming">Gaming</button><button class="chip" data-cat="TVs">TVs</button><button class="chip" data-cat="Cameras">Cameras</button><button class="chip" data-cat="Accessories">Accessories</button><button class="chip" data-cat="Smart Home">Smart Home</button><button class="chip" data-cat="Networking">Networking</button>
+</div>
+<div class="grid-products" id="gridProducts"></div>
+<div class="pager" id="pager">
+<button class="btn btn-ghost btn-sm" id="prevPage">← Prev</button>
+<span id="pageInfo"></span>
+<button class="btn btn-ghost btn-sm" id="nextPage">Next →</button>
+<button class="btn btn-primary btn-sm" id="loadMore">Load more</button>
+</div>
+</div>
+</section>
+
+<!-- APP VIEWS: category hub + product detail (same design system, no redesign) -->
+<section class="section" id="view-categories" hidden>
+<div class="container">
+<p class="crumbs"><a href="#/">Home</a> / Categories</p>
+<div class="section-head"><div><span class="eyebrow">All departments</span><h2 id="catsTitle">Categories</h2><p id="catsDesc">Pick a department to see its title, description, count, filters and products.</p></div></div>
+<div class="cat-grid" id="catsHub"></div>
+</div>
+</section>
+
+<section class="section" id="view-shop" hidden>
+<div class="container">
+<p class="crumbs" id="shopCrumbs"><a href="#/">Home</a> / <span id="crumbCat">All products</span><span id="crumbSearch"></span></p>
+<div class="cat-hero" id="catHero">
+<div><span class="eyebrow" id="catEyebrow">Department</span><h2 id="catTitle">All products</h2><p id="catDesc"></p><p class="shop-count" id="catCount"></p></div>
+<img id="catImg" alt="category" />
+</div>
+<div class="shop-bar">
+<input id="searchInput" type="search" placeholder="Search TVs, cameras, routers…" aria-label="Search catalog" />
+<select id="brandSel" aria-label="Brand"><option value="All">All brands</option></select>
+<label id="priceSel">Max price <input type="range" min="39" max="2500" value="2500" step="10" /> <span></span></label>
+<select id="sortSel" aria-label="Sort"><option value="pop">Sort: Popular</option><option value="low">Price: Low → High</option><option value="high">Price: High → Low</option><option value="rating">Top rated</option></select>
+</div>
+<p id="shopCount" class="shop-count"></p>
+<div class="filter-row" id="shopFilters2">
+<button class="chip active" data-cat="All">All</button><button class="chip" data-cat="Laptops">Laptops</button><button class="chip" data-cat="Phones">Phones</button><button class="chip" data-cat="Audio">Audio</button><button class="chip" data-cat="Wearables">Wearables</button><button class="chip" data-cat="Gaming">Gaming</button><button class="chip" data-cat="TVs">TVs</button><button class="chip" data-cat="Cameras">Cameras</button><button class="chip" data-cat="Accessories">Accessories</button><button class="chip" data-cat="Smart Home">Smart Home</button><button class="chip" data-cat="Networking">Networking</button>
+</div>
+<div class="grid-products" id="gridProducts2"></div>
+<div class="pager" id="pager2">
+<button class="btn btn-ghost btn-sm" id="prevPage2">← Prev</button>
+<span id="pageInfo2"></span>
+<button class="btn btn-ghost btn-sm" id="nextPage2">Next →</button>
+<button class="btn btn-primary btn-sm" id="loadMore2">Load more</button>
+</div>
+</div>
+</section>
+
+<section class="section" id="view-product" hidden>
+<div class="container">
+<p class="crumbs" id="pCrumbs"><a href="#/">Home</a> / Product</p>
+<div class="pd-grid">
+<div class="pd-media"><img id="pdImg" alt="product" /><span class="p-flag" id="pdFlag"></span></div>
+<div class="pd-info">
+<span class="p-cat" id="pdCat"></span>
+<h2 id="pdName"></h2>
+<div class="stars" id="pdStars"></div>
+<div class="price pd-price"><strong id="pdPrice"></strong><s id="pdOld"></s><em id="pdSave"></em></div>
+<p id="pdDesc" class="pd-desc"></p>
+<ul class="pd-specs" id="pdSpecs"></ul>
+<div class="pd-cta"><button class="btn btn-primary btn-lg" id="pdAdd">Add to cart →</button><button class="btn btn-ghost btn-lg" id="pdWish">♡ Save</button></div>
+<p class="ship-note" id="pdMeta">🚚 Free delivery in 24h • 2-year warranty • 30-day returns</p>
+</div>
+</div>
+<h3 style="margin:28px 0 14px">Related products</h3>
+<div class="grid-products" id="pdRelated"></div>
+</div>
+</section>
+<section>
+<div class="container promo-grid">
+<div class="promo p1"><small>GAMING WEEK</small><h3>Build your dream battlestation.</h3><p>RTX rigs, 240Hz monitors and pro gear — bundle and save 10%.</p><div><a href="#/shop/Gaming" class="btn btn-ghost">Shop gaming →</a></div><img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=600&q=70&auto=format&fit=crop" alt="gaming"></div>
+<div class="promo p2"><small>SMART HOME</small><h3>A home that thinks with you.</h3><p>Speakers, security and lighting from ₦36,540. Free setup guide.</p><div><a href="#/shop/Smart%20Home" class="btn btn-ghost">Shop smart home →</a></div><img src="https://images.unsplash.com/photo-1558089687-f282ffcbc126?w=600&q=70&auto=format&fit=crop" alt="smart"></div>
+</div>
+</section>
+<section class="section" id="brands">
+<div class="container">
+<div class="section-head"><div><span class="eyebrow">Official partner</span><h2>Top brands we carry</h2></div></div>
+<div class="brands"><div class="brand">Apple</div><div class="brand">Samsung</div><div class="brand">Sony</div><div class="brand">BOSE</div><div class="brand">Dell</div><div class="brand">JBL</div></div>
+</div>
+</section>
+<section>
+<div class="container">
+<div class="section-head"><div><span class="eyebrow">★ 4.9 / 5</span><h2>Loved by tech fans</h2><p>48,000+ verified reviews.</p></div></div>
+<div class="rev-grid">
+<div class="rev"><div class="stars">★★★★★</div><p>"Ordered a MacBook at noon, arrived next morning. Flawless."</p><div class="rev-who"><div class="avatar">M</div><div><b>Maya R.</b><br><small>Verified buyer</small></div></div></div>
+<div class="rev"><div class="stars">★★★★★</div><p>"Best headphone prices anywhere. 2-year warranty sold me."</p><div class="rev-who"><div class="avatar">J</div><div><b>James K.</b><br><small>Verified buyer</small></div></div></div>
+<div class="rev"><div class="stars">★★★★★</div><p>"Trade-in + student discount stacked. Saved ₦428,400 on setup."</p><div class="rev-who"><div class="avatar">S</div><div><b>Sofia L.</b><br><small>Verified buyer</small></div></div></div>
+</div>
+</div>
+</section>
+<section class="section" id="support">
+<div class="container">
+<div class="news">
+<div><h2>Get ₦25,200 off your first order</h2><p>Join 120k subscribers. Drops, deals, no spam.</p></div>
+<form onsubmit="return false"><input placeholder="you@email.com"><button class="btn btn-dark">Claim ₦25,200 →</button></form>
+</div>
+</div>
+</section>
+<footer>
+<div class="container f-grid">
+<div><a href="#/" class="logo" style="color:#fff">⚡ Volt<span>Edge</span></a><p style="color:#94A3B8">Premium electronics, honestly priced. 2-year warranty.</p></div>
+<div><h4>Shop</h4><a href="#/shop/Laptops">Laptops</a><a href="#/shop/Phones">Phones</a><a href="#/shop/Audio">Audio</a><a href="#/shop/Gaming">Gaming</a></div>
+<div><h4>Company</h4><a href="#/categories">Categories</a><a href="#/brands">Brands</a><a href="#/support">Support</a></div>
+<div><h4>Support</h4><a href="#/support">Help center</a><a href="#/support">Shipping</a><a href="#/support">Returns</a></div>
+</div>
+<div class="container f-bottom"><span>© 2026 VoltEdge. Design system v1.0.</span><span>Visa • Mastercard • PayPal • Apple Pay</span></div>
+</footer>
+<nav class="mobile-nav"><button class="on" data-mnav="home">⌂<span>Home</span></button><button data-mnav="shop">▦<span>Shop</span></button><button data-mnav="wish">♡<span>Saved</span></button><button data-mnav="cart">🛒<span>Cart</span></button><button data-mnav="you">◉<span>You</span></button></nav>
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Cart drawer"><div class="d-head"><b id="drawerTitle">Your cart (0)</b><button class="icon-btn" id="closeDrawer">✕</button></div><div class="d-items" id="dItems"></div><div class="d-foot" id="dFoot"></div></aside>
+<!-- Auth / Account / Checkout / Wishlist / Confirmation (reusable sheet + views) -->
+<div class="sheet" id="sheet" hidden><div class="sheet-card" role="dialog" aria-modal="true">
+<div class="d-head"><b id="sheetTitle">Account</b><button class="icon-btn" id="sheetClose">✕</button></div>
+<div class="sheet-body" id="sheetBody"></div>
+</div></div>
+<section class="section" id="view-checkout" hidden>
+<div class="container">
+<p class="crumbs"><a href="#/">Home</a> / Checkout</p>
+<div class="co-steps" id="coSteps"><span class="on" data-s="1">1 Info</span><span data-s="2">2 Delivery</span><span data-s="3">3 Payment</span><span data-s="4">4 Review</span></div>
+<div class="co-grid">
+<form class="co-form" id="coForm" onsubmit="return false">
+<div class="co-card" data-step="1"><h3>1 • Customer / contact information</h3><div class="co-row"><input name="name" required placeholder="Full name" autocomplete="name" /><input name="phone" required placeholder="Phone (080…)" autocomplete="tel" /></div><input name="email" type="email" required placeholder="Email" autocomplete="email" /><small class="hint">Receipt + tracking go here. Mock auth prefills if signed in.</small></div>
+<div class="co-card" data-step="1"><h3>Delivery / shipping address</h3><input name="address" required placeholder="Street address" autocomplete="street-address" /><div class="co-row"><input name="city" required placeholder="City (Lagos)" /><select name="state"><option>Lagos</option><option>Abuja FCT</option><option>Rivers</option><option>Oyo</option><option>Kano</option></select></div><label class="radio"><input type="checkbox" name="saveAddr" checked /> Save to my addresses</label><div id="addrPick"></div></div>
+<div class="co-card" data-step="2"><h3>2 • Delivery method</h3><label class="radio"><input type="radio" name="ship" value="0" checked /> Standard (3–5 days) — Free over ₦124,740</label><label class="radio"><input type="radio" name="ship" value="3500" /> Express (24h metro) — ₦4,410</label><label class="radio"><input type="radio" name="ship" value="8000" /> Same-day Lagos — ₦10,080</label><input name="note" placeholder="Delivery note (gate, landmark) — optional" /></div>
+<div class="co-card mockpay" data-step="3"><h3>3 • Payment method <span class="pill warn">MOCK — no real charge</span></h3><p class="hint">Clearly marked mock step. Supabase + Paystack replaces this next stage.</p><label class="radio"><input type="radio" name="pay" value="card" checked /> Card / Transfer (mock Paystack)</label><div class="co-row" id="mockCard"><input name="cardnum" inputmode="numeric" placeholder="Card 0000 0000 0000 0000" /><input name="exp" placeholder="MM/YY + CVV" /></div><label class="radio"><input type="radio" name="pay" value="pod" /> Pay on delivery</label><input name="coupon" id="coupon" placeholder="Coupon (try VOLT10)" /></div>
+<div class="co-card" data-step="4"><h3>4 • Final order review</h3><div id="reviewBox"></div></div>
+<p class="form-err" id="coErr"></p>
+<div class="pd-cta"><button class="btn btn-ghost" id="backShop" type="button">← Cart</button><button class="btn btn-primary btn-lg" id="placeOrder">Pay (mock) + Place order →</button></div>
+</form>
+<aside class="co-sum"><h3>Order summary</h3><div id="coItems"></div><div id="coTotals"></div><button class="btn btn-ghost" id="backShop2">← Continue shopping</button></aside>
+</div>
+</div>
+</section>
+<section class="section" id="view-confirm" hidden>
+<div class="container confirm">
+<div class="ok-big">✓</div>
+<div class="eyebrow">Mock payment successful — no real charge</div>
+<h2>Order confirmed — thank you!</h2>
+<p id="confirmMsg"></p>
+<div class="confirm-grid">
+<div class="co-card"><h3>Order number</h3><div id="cfNum"></div><h3>Items purchased</h3><div id="cfItems"></div></div>
+<div class="co-card"><h3>Delivery information</h3><div id="cfShip"></div><h3>Estimated delivery</h3><div id="cfEta"></div><h3>Order total</h3><div id="cfTotal"></div></div>
+</div>
+<div class="co-card" id="confirmBox" hidden></div>
+<div class="pd-cta"><a href="#/shop" class="btn btn-primary">Continue shopping →</a><a href="#/account/orders" class="btn btn-ghost" id="viewOrderBtn">View this order →</a><a href="#/account" class="btn btn-ghost">All orders</a></div>
+</div>
+</section>
+<section class="section" id="view-account" hidden>
+<div class="container">
+<p class="crumbs"><a href="#/">Home</a> / Account <span id="acctCrumb"></span></p>
+<div class="section-head"><div><span class="eyebrow">Customer • mock auth</span><h2 id="acctTitle">Your account</h2><p id="acctSub">Overview, info, addresses, wishlist, orders. Local — Supabase next.</p></div><button class="btn btn-ghost" id="logoutBtn">Sign out</button></div>
+<div class="acct-tabs" id="acctTabs"><button class="chip active" data-tab="overview">Overview</button><button class="chip" data-tab="info">Personal info</button><button class="chip" data-tab="addresses">Addresses</button><button class="chip" data-tab="wishlist">Wishlist</button><button class="chip" data-tab="orders">Orders</button></div>
+<div class="acct-grid" id="acctOverview"><div class="co-card"><h3>Overview</h3><div id="acctStats"></div></div><div class="co-card"><h3>Recent order</h3><div id="acctRecent"></div></div></div>
+<div class="co-card" id="pane-info"><h3>Personal information</h3><form id="infoForm" class="co-form" onsubmit="return false"><div class="co-row"><input name="name" required placeholder="Full name" /><input name="phone" required placeholder="Phone" /></div><input name="email" type="email" required placeholder="Email" /><button class="btn btn-primary">Save info →</button></form></div>
+<div class="co-card" id="pane-addresses" hidden><h3>Saved addresses</h3><div id="addrList"></div><form id="addrForm" class="co-form" onsubmit="return false"><input name="label" placeholder="Label (Home / Office)" /><input name="address" required placeholder="Street" /><div class="co-row"><input name="city" required placeholder="City" /><select name="state"><option>Lagos</option><option>Abuja FCT</option><option>Rivers</option><option>Oyo</option><option>Kano</option></select></div><button class="btn btn-primary btn-sm">Add address +</button></form></div>
+<div class="co-card" id="pane-wishlist" hidden><h3>Wishlist</h3><div id="acctWish"></div></div>
+<div class="co-card wide" id="pane-orders" hidden><h3>Order history</h3><div id="acctOrders"></div><div id="orderDetail" hidden></div></div>
+</div>
+</section>
+<div class="toast" id="toast">Added to cart ✓</div>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/api.js"></script>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/account.js"></script>
+<script src="js/checkout.js"></script>
+<script src="js/router.js"></script>
+<script src="js/app.js"></script>
+
+
+</body>
+</html>
