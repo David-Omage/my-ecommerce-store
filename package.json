@@ -1,0 +1,21 @@
+{
+  "name": "my-ecommerce-store",
+  "version": "1.0.0",
+  "description": "> Polished responsive storefront for premium electronics.\r > **Status:** v1.3 — Supabase connected via env vars (`.env` → `js/env.js`). Project reachable; schema still to be applied before live data flows — see **[SUPABASE_SETUP.md](SUPABASE_SETUP.md)**.\r > **Preview:** `http://localhost:8000/` via `python -m http.server 8000`",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/David-Omage/my-ecommerce-store.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/David-Omage/my-ecommerce-store/issues"
+  },
+  "homepage": "https://github.com/David-Omage/my-ecommerce-store#readme"
+}

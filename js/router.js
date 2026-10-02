@@ -43,7 +43,7 @@ document.getElementById("pdRelated").innerHTML=window.MOCK_PRODUCTS.filter(x=>x.
 window.scrollTo({top:0});
 },
 bind(){window.addEventListener("hashchange",()=>this.route());
-document.addEventListener("click",e=>{const v=e.target.closest("[data-view]");if(v)location.hash="#/product/"+v.dataset.view;
+document.addEventListener("click",e=>{const v=e.target.closest("[data-view]:not(body)");if(v)location.hash="#/product/"+v.dataset.view;
 const hb=e.target.closest(".cat[data-goto]");if(hb)location.hash="#/shop/"+encodeURIComponent(hb.dataset.goto);});
 }
 };

@@ -30,7 +30,8 @@ bind(){document.getElementById("coForm")?.addEventListener("input",e=>{
 const pk=e.target.closest("[data-pickaddr]");
 if(pk){const a=window.Account.addrs()[+pk.dataset.pickaddr];const f=document.getElementById("coForm");f.address.value=a.address;f.city.value=a.city;f.state.value=a.state;}
 this.totals();});
-document.getElementById("placeOrder")?.addEventListener("click",()=>{
+document.getElementById("coForm")?.addEventListener("submit",e=>{
+e.preventDefault();
 const S=window.Store,U=window.UI;const f=document.getElementById("coForm");
 const err=document.getElementById("coErr");
 if(!S.cartCount()){err.textContent="Your cart is empty.";return;}
