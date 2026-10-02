@@ -38,7 +38,7 @@ document.getElementById("pdSave").textContent=`Save ${window.UI.moneyUSD(p.o-p.p
 document.getElementById("pdDesc").textContent=`${p.n} by ${p.b} — ${window.CATS[p.c]?.d||""} In stock, ships in 24h.`;
 document.getElementById("pdSpecs").innerHTML=[`Brand: ${p.b}`,`Category: ${p.c}`,`Rating: ${p.r}`,`Flag: ${p.f}`,`Warranty: 2 years`,`Free express shipping over ₦124,740`].map(s=>`<li>${s}</li>`).join("");
 const add=document.getElementById("pdAdd");add.onclick=()=>{window.Store.add(p.id,1);window.UI.badges();window.UI.toast(`${p.n} added ✓`);};
-const w=document.getElementById("pdWish");const sync=()=>{const on=window.Store.isWished(p.id);w.textContent=on?"♥ Saved":"♡ Save";};sync();w.onclick=()=>{window.Store.toggleWish(p.id);window.UI.badges();sync();};
+const w=document.getElementById("pdWish");const sync=()=>{const on=window.Store.isWished(p.id);w.textContent=on?"♥ Saved":"♡ Save";};sync();w.onclick=async()=>{try{await window.Account.toggleWish(p.id);sync();}catch{}};
 document.getElementById("pdRelated").innerHTML=window.MOCK_PRODUCTS.filter(x=>x.c===p.c&&x.id!==p.id).concat(window.MOCK_PRODUCTS.filter(x=>x.c!==p.c)).slice(0,4).map(x=>window.UI.card(x)).join("");
 window.scrollTo({top:0});
 },

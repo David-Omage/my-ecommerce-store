@@ -331,7 +331,8 @@ grant execute on function public.create_order(jsonb) to anon, authenticated;
 -- ---------- seed (safe to delete if you load your own catalog) ----------
 insert into public.coupons(code,percent_off,min_subtotal,active) values
   ('VOLT10',10,0,true)
-on conflict (code) do nothing;
+on conflict (code) do update set percent_off=excluded.percent_off,
+  min_subtotal=excluded.min_subtotal,active=excluded.active;
 
 
 

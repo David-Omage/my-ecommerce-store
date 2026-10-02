@@ -1,5 +1,5 @@
 # VoltEdge Design System v1.0
-Modern electronics retailer — frontend only.
+Modern electronics retailer with a Supabase-backed account and catalog.
 
 ## 1. Colors
 - Primary: #2563EB (brand-600), hover #1D4ED8
@@ -36,6 +36,7 @@ Modern electronics retailer — frontend only.
 ## Files
 - index.html (structure) / styles.css (system) / js/* (app modules)
 - js/config.js + js/supabase.js + js/api.js = data layer (MOCK <-> Supabase swap point)
-- supabase/migrations/0001_init.sql = backend schema (review-only, not yet applied)
+- supabase/migrations/*.sql = backend schema and follow-up database changes
+- Supabase Auth = email one-time links + Google OAuth; configure providers and redirects in the dashboard
 - app.js (root) is legacy/dead - not loaded by index.html
 - Open index.html directly in browser — no build step.

@@ -157,19 +157,33 @@ A browser can't read OS environment variables directly, so a small generator tur
 
 ---
 
-## Step 6 (optional) — Turn on real accounts
+## Step 6 — Configure Supabase Auth
 
-Ordering already works for anonymous visitors (orders are stored with a `NULL` `user_id`).
-Sign-in, saved addresses, wishlist and order history light up once Auth is enabled:
+The app uses Supabase email one-time links and Google OAuth. Sessions are restored by the
+Supabase client; profiles, addresses, wishlists, and authenticated order history use the
+existing tables and owner-only RLS policies.
 
-1. **Authentication → Providers** → enable **Email** (and any social providers you want).
-2. **Authentication → URL Configuration** → add `http://localhost:8000` to *Redirect URLs*
-   while testing.
-3. The `handle_new_user` trigger (in `0001_init.sql`) auto-creates a `profiles` row on signup.
+Read-only settings check on 2026-10-02: the email provider is enabled, Google is disabled,
+and no Auth Site URL is configured. The project URL and publishable key are already
+configured locally; no credential values were printed.
 
-> Note: `Api.orders()` still reads `localStorage` by design — mapping DB order rows into the
-> account UI is the follow-up task once Auth/RLS are live (it's marked `TODO(supabase)` in
-> `js/api.js`).
+1. In **Authentication → Providers**, leave **Email** enabled and allow email sign-ins.
+2. In **Authentication → URL Configuration**, set the Site URL and add the exact app URL
+   used locally (for example `http://localhost:8000/`) and the production app URL to
+   *Redirect URLs*. The app returns to the current app path after authentication.
+3. For Google, create a web OAuth client in Google Cloud. Add the local and production app
+   origins as authorized JavaScript origins, and copy the Supabase callback URI shown in
+   the Supabase Google provider settings into Google's authorized redirect URIs. Enter the
+   Google client ID and client secret in the Supabase dashboard only. Do not put either
+   value in `.env`, `js/env.js`, or browser code.
+4. Save the Google client ID and secret in **Authentication → Providers → Google** in
+   Supabase and enable the provider.
+5. Apply `supabase/migrations/0002_volt10_coupon.sql` when syncing migrations or aligning an
+   existing project. The currently connected project was checked and already has the
+   expected active 10% row. Fresh projects get the same row in `0001_init.sql`, and
+   `supabase/seed.sql` keeps it aligned when re-seeding.
+
+The `handle_new_user` trigger in `0001_init.sql` creates a profile row when a user signs up.
 
 ---
 

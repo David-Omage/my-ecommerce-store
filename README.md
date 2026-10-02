@@ -1,7 +1,7 @@
 # ⚡ VoltEdge — Modern Electronics Store
 
 > Polished responsive storefront for premium electronics.
-> **Status:** v1.3 — Supabase connected via env vars (`.env` → `js/env.js`). Project reachable; schema still to be applied before live data flows — see **[SUPABASE_SETUP.md](SUPABASE_SETUP.md)**.
+> **Status:** Supabase is configured and the live catalog, core tables, and `create_order` RPC respond to the read-only connectivity check. Auth providers and redirect URLs still need dashboard configuration; see **[SUPABASE_SETUP.md](SUPABASE_SETUP.md)**.
 > **Preview:** `http://localhost:8000/` via `python -m http.server 8000`
 
 ## Contents
@@ -29,13 +29,13 @@ js/          # app modules (load order: config, supabase, data, api, store, ui, 
   supabase.js# creates window.SB only when USE_SUPABASE=true (else silent MOCK)
   data.js    # MOCK_PRODUCTS (24) + MOCK_MORE + CATS (11)
   api.js     # Api.products/product/createOrder/orders - MOCK or Supabase
-  store.js   # cart/wishlist/user state (ve_cart/ve_wish/ve_user)
+  store.js   # local cart + in-memory auth/account state (Supabase persists account data)
   ui.js      # card(), moneyUSD(), fmtN(), badges()
-  shop.js cart.js account.js checkout.js router.js app.js  # features + boot
+  shop.js cart.js account.js checkout.js router.js app.js  # features + Supabase auth/session boot
 env.js     # GENERATED from .env by scripts/build-env.mjs (git-ignored) -> window.__ENV__
 scripts/     # build-env.mjs (.env -> js/env.js), check-supabase.mjs, check-config.mjs, load-env.mjs
 .env.example # template for SUPABASE_URL + SUPABASE_PUBLISHABLE_KEY (copy to .env; .env is git-ignored)
-supabase/migrations/0001_init.sql # schema + RLS + create_order RPC (paste into SQL editor)
+supabase/migrations/        # schema + RLS + create_order + follow-up coupon alignment
 supabase/seed.sql        # 24-product catalog seed (generated) - run AFTER the migration
 supabase/gen_seed.mjs    # node script: rebuilds seed.sql from js/data.js
 SUPABASE_SETUP.md        # step-by-step guide: connect this app to your Supabase project
@@ -102,10 +102,13 @@ Vanilla only, no frameworks. styles.css order: tokens->base->buttons->header->he
 - [x] checkout + newsletter validation (v1.0)
 - [x] write schema + RLS + create_order RPC (supabase/migrations/0001_init.sql)
 - [x] write seed catalog + generator + setup guide (supabase/seed.sql, supabase/gen_seed.mjs, SUPABASE_SETUP.md)
-- [ ] provision Supabase project: run 0001_init.sql then seed.sql (see SUPABASE_SETUP.md) - REQUIRED before live data flows
+- [x] provision Supabase project: schema/catalog and create_order RPC verified reachable (2026-10-02)
 - [x] env-based Supabase config (.env + scripts/build-env.mjs) + connectivity/self-test scripts
-- [ ] replace mock auth in js/account.js with supabase.auth (magic link / OTP)
-- [ ] wire wishlist + profile + order history reads to Supabase (owner RLS)
+- [x] replace mock auth with Supabase email OTP and Google OAuth session handling
+- [x] wire wishlist + profile + saved addresses + order history to Supabase (owner RLS)
+- [ ] configure Email/Google providers and redirect URLs in Supabase dashboard (see SUPABASE_SETUP.md)
+- [x] verify live VOLT10 is active at 10% (2026-10-02)
+- [ ] apply 0002_volt10_coupon.sql when syncing migration history or aligning another existing project
 - [ ] add #/404 route + real Paystack/Flutterwave payment init
 
 ## 11. Log (update every task)
@@ -125,4 +128,5 @@ Vanilla only, no frameworks. styles.css order: tokens->base->buttons->header->he
 | 2026-10-01 | v1.1 | Supabase SDK + api swap + migration (review-only); hero/dup-ID/shipping fixes | index.html, js/supabase.js, js/api.js, js/shop.js, js/app.js, js/checkout.js, js/config.js, supabase/migrations/0001_init.sql, .gitignore, README.md, design-system.md |
 | 2026-10-01 | v1.2 | Seed catalog + generator + SUPABASE_SETUP.md connect guide | supabase/seed.sql, supabase/gen_seed.mjs, SUPABASE_SETUP.md, README.md |
 | 2026-10-01 | v1.3 | Env-var Supabase config (.env -> js/env.js) + live connectivity & config self-tests | .env.example, scripts/build-env.mjs, scripts/load-env.mjs, scripts/check-supabase.mjs, scripts/check-config.mjs, js/config.js, index.html, .gitignore, SUPABASE_SETUP.md, README.md |
+| 2026-10-02 | v1.4 | Supabase email/Google auth + owner-scoped account data, checkout address picker, VOLT10 alignment | js/account.js, js/api.js, js/store.js, js/cart.js, js/checkout.js, js/app.js, js/router.js, supabase/migrations/0002_volt10_coupon.sql, supabase/seed.sql, supabase/gen_seed.mjs, scripts/check-supabase.mjs, SUPABASE_SETUP.md |
 

@@ -59,6 +59,19 @@ console.log(`[check] project: ${url}\n`);
 await probe("products (catalog read)", "products?select=id,name&limit=3");
 await probe("categories (join target)", "categories?select=id,slug&limit=1");
 await probe("brands (join target)", "brands?select=id,name&limit=1");
+// Checkout displays this fixed promotion, and create_order validates the same
+// row server-side. Verify its value rather than only checking table presence.
+try{
+  const res = await fetch(`${url}/rest/v1/coupons?select=code,percent_off,min_subtotal,active&code=eq.VOLT10`, { headers });
+  const rows = res.ok ? await res.json() : [];
+  const coupon = Array.isArray(rows) ? rows.find(x => x.code === "VOLT10") : null;
+  const ok = res.status === 200 && coupon?.active === true && Number(coupon.percent_off) === 10 && Number(coupon.min_subtotal) === 0;
+  if (!ok) failures++;
+  console.log(`${ok ? "PASS" : "FAIL"}  VOLT10 coupon: ${ok ? "active, 10%, no minimum" : `expected active 10% with no minimum (HTTP ${res.status})`}`);
+} catch(e){
+  failures++;
+  console.log(`FAIL  VOLT10 coupon: request failed - ${e.message}`);
+}
 await probe("orders (owner-only read)", "orders?select=id&limit=1", "- anon returns 200 with 0 rows; that is expected");
 
 // create_order RPC existence. Probed with an EMPTY cart on purpose: the function
