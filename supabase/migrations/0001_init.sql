@@ -1,8 +1,11 @@
 -- ============================================================================
 -- VoltEdge — Supabase schema v1  (supabase/migrations/0001_init.sql)
 -- ----------------------------------------------------------------------------
--- STATUS: REVIEW ONLY — do NOT run against the database until the wiring PR is
--- approved. This file is the source of truth for the backend.
+-- STATUS: APPLIED — this schema is live on project vcidcyfuwfbndidjpajn.
+-- Verified 2026-10-01: 11 tables created, RLS enabled, create_order() present,
+-- and the 24-product catalog loaded from supabase/seed.sql. This file remains the
+-- source of truth for the backend; re-running it is idempotent (create ... if not
+-- exists / create or replace / drop policy if exists).
 --
 -- Money conventions (kept identical to the frontend so nothing double-converts):
 --   * products.price / compare_at  = USD catalog values (js/data.js MOCK uses USD;
