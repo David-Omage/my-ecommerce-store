@@ -1,5 +1,7 @@
 // Checkout: address/contact/delivery/summary/mock-pay/review + confirmation.
 window.Checkout={
+couponStatus:{code:"",valid:false,percentOff:0},
+couponTimer:null,
 shipOpts:[{v:"0",t:"Standard (3–5 days)"},{v:"4410",t:"Express (24h metro)"},{v:"10080",t:"Same-day Lagos"}],
 esc(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));},
 shipLabel(v){return v==="10080"?"Same-day Lagos":v==="4410"?"Express (24h)":"Standard (3–5 days)";},
@@ -14,18 +16,41 @@ document.getElementById("addrPick").innerHTML=addresses.length?'<small class="hi
 this.totals();document.getElementById("backShop")?.addEventListener("click",()=>window.UI.openDrawer());document.getElementById("backShop2")?.addEventListener("click",()=>location.hash="#/shop");
 },
 totals(){const S=window.Store,U=window.UI;const sub=S.subtotal();const shipEl=document.querySelector('input[name="ship"]:checked');
-const ship=sub===0?0:(sub>=window.APP_CONFIG.FREE_SHIP&&shipEl?.value==="0"?0:(Number(shipEl?.value)||0));
-const coupon=document.getElementById("coupon")?.value.trim().toUpperCase();const disc=coupon==="VOLT10"?Math.round(sub*0.1*100)/100:0;const total=Math.max(0,Math.round((sub-disc+ship)*100)/100);
-document.getElementById("coTotals").innerHTML=`<div class="t-row"><span>Subtotal</span><b>${U.fmtN(sub)}</b></div><div class="t-row"><span>Coupon ${disc?`(VOLT10 −10%)`:""}</span><span>−${U.fmtN(disc)}</span></div><div class="t-row"><span>Shipping (${this.shipLabel(shipEl?.value||"0")})</span><span>${ship===0?"Free":U.fmtN(ship)}</span></div><div class="t-row grand"><span>Total</span><b>${U.fmtN(total)}</b></div>`;
+const shipOpt=shipEl?.value||"0";const ship=sub===0?0:(shipOpt==="4410"?4410:shipOpt==="10080"?10080:window.APP_CONFIG.standardShipping(sub));
+const coupon=document.getElementById('coupon')?.value.trim().toUpperCase();const couponStatus=this.couponStatus;const disc=coupon&&couponStatus.code===coupon&&couponStatus.valid?Math.round(sub*couponStatus.percentOff)/100:0;const total=Math.max(0,Math.round((sub-disc+ship)*100)/100);
+document.getElementById("coTotals").innerHTML=`<div class="t-row"><span>Subtotal</span><b>${U.fmtN(sub)}</b></div><div class="t-row"><span>Coupon ${disc?`(${couponStatus.percentOff}% off)`:""}</span><span>−${U.fmtN(disc)}</span></div><div class="t-row"><span>Shipping (${this.shipLabel(shipEl?.value||"0")})</span><span>${ship===0?"Free":U.fmtN(ship)}</span></div><div class="t-row grand"><span>Total</span><b>${U.fmtN(total)}</b></div>`;
 const f=document.getElementById("coForm"),rb=document.getElementById("reviewBox");if(rb&&f){const fd=new FormData(f);rb.innerHTML=`<div class="order"><b>${fd.get("name")||"—"}</b> • ${fd.get("phone")||"—"}<br><small>${fd.get("email")||"—"}</small></div><div class="order"><b>Deliver to:</b><br><small>${fd.get("address")||"—"}, ${fd.get("city")||"—"}, ${fd.get("state")||""}</small></div><div class="order"><b>${this.shipLabel(fd.get("ship"))}</b><br><small>ETA ${this.eta(fd.get("ship"))} • ${fd.get("pay")==="pod"?"Pay on delivery":"Card/Transfer (mock)"}</small></div>`;}
 return {sub,disc,ship,total,coupon};
 },
+async validateCoupon(code){
+const input=document.getElementById("coupon"),feedback=document.getElementById("couponFeedback");code=String(code??input?.value??"").trim().toUpperCase();
+clearTimeout(this.couponTimer);
+if(!code){this.couponStatus={code:"",valid:false,percentOff:0};if(feedback)feedback.textContent="";this.totals();return true;}
+this.couponStatus={code,valid:false,percentOff:0};if(feedback)feedback.textContent="Checking coupon…";this.totals();
+try{
+ const result=await window.Api.validateCoupon(code,window.Store.subtotal());
+ if(input?.value.trim().toUpperCase()!==code)return false;
+ this.couponStatus={code,valid:!!result.valid,percentOff:Number(result.percentOff)||0};
+ if(feedback)feedback.textContent=result.valid?`${code} applied: ${result.percentOff}% off.`:"Coupon rejected. It is unknown, inactive, expired, or below its minimum order value.";
+ this.totals();return !!result.valid;
+}catch(error){
+ if(input?.value.trim().toUpperCase()!==code)return false;
+ this.couponStatus={code,valid:false,percentOff:0};if(feedback)feedback.textContent="Could not verify this coupon. Please retry or remove it before continuing.";this.totals();return false;
+}
+},
 bind(){const form=document.getElementById("coForm");
-form?.addEventListener("input",()=>this.totals());
+form?.addEventListener("input",e=>{
+ if(e.target?.id!=="coupon"){this.totals();return;}
+ const code=e.target.value.trim().toUpperCase();this.couponStatus={code,valid:false,percentOff:0};clearTimeout(this.couponTimer);
+ const feedback=document.getElementById("couponFeedback");if(feedback)feedback.textContent=code?"Checking coupon…":"";this.totals();
+ if(code)this.couponTimer=setTimeout(()=>this.validateCoupon(code),350);
+});
 form?.addEventListener("click",e=>{const pick=e.target.closest("[data-pickaddr]");if(!pick)return;const a=window.Account.addrs()[+pick.dataset.pickaddr];if(!a)return;form.elements.namedItem("address").value=a.address||"";form.elements.namedItem("city").value=a.city||"";form.elements.namedItem("state").value=a.state||"Lagos";this.totals();});
 form?.addEventListener("submit",async e=>{
   e.preventDefault();const S=window.Store,U=window.UI,err=document.getElementById("coErr");err.textContent="";
   if(!S.cartCount()){err.textContent="Your cart is empty.";return;}if(!form.checkValidity()){form.reportValidity();return;}
+  const couponCode=form.elements.namedItem("coupon").value.trim();
+  if(couponCode&&!await this.validateCoupon(couponCode)){err.textContent=document.getElementById("couponFeedback")?.textContent||"Coupon rejected.";return;}
   const fd=new FormData(form),t=this.totals(),shipV=fd.get("ship");
   const order={items:S.cartLines(),sub:t.sub,disc:t.disc,ship:t.ship,total:t.total,name:fd.get("name"),email:fd.get("email"),phone:fd.get("phone"),address:fd.get("address"),city:fd.get("city"),state:fd.get("state"),note:fd.get("note"),shipOpt:shipV,shipLabel:this.shipLabel(shipV),eta:this.eta(shipV),pay:fd.get("pay"),payMock:true,coupon:t.coupon,status:"Processing"};
   try{
@@ -40,7 +65,7 @@ form?.addEventListener("submit",async e=>{
     document.getElementById("cfEta").innerHTML=`<b>${this.esc(saved.eta)}</b><br><small>Standard free over ₦124,740</small>`;
     document.getElementById("cfTotal").innerHTML=`<div class="t-row"><span>Subtotal</span><b>${U.fmtN(saved.sub)}</b></div><div class="t-row"><span>Discount</span><span>−${U.fmtN(saved.disc)}</span></div><div class="t-row"><span>Shipping</span><span>${saved.ship===0?"Free":U.fmtN(saved.ship)}</span></div><div class="t-row grand"><span>Total (mock payment)</span><b>${U.fmtN(saved.total)}</b></div>`;
     document.getElementById("viewOrderBtn").href="#/account/orders/"+encodeURIComponent(saved.id);location.hash="#/confirm";
-  }catch(error){err.textContent=error.message||"Could not place this order. Please try again.";}
+  }catch(error){if(/coupon/i.test(error.message||"")){const message="Coupon rejected. It is unknown, inactive, expired, or below its minimum order value.";document.getElementById("couponFeedback").textContent=message;err.textContent=message;}else err.textContent=error.message||"Could not place this order. Please try again.";}
 });
 },
 showConfirm(){window.UI.badges();}

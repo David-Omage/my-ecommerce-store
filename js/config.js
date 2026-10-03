@@ -10,6 +10,7 @@
   var key=env.SUPABASE_PUBLISHABLE_KEY||env.SUPABASE_ANON_KEY||"";
   // USE_SUPABASE is explicit when set, otherwise auto-on once both values exist.
   var use=env.USE_SUPABASE!=null?String(env.USE_SUPABASE)!=="false":!!(url&&key);
-  window.APP_CONFIG={RATE:1400,DISCOUNT:0.9,PER:8,FREE_SHIP:124740,
+  window.APP_CONFIG={RATE:1400,DISCOUNT:0.9,PER:8,FREE_SHIP:124740,STANDARD_SHIP:4410,
+    standardShipping(subtotal){return Number(subtotal)>=this.FREE_SHIP?0:this.STANDARD_SHIP;},
     SUPABASE_URL:url,SUPABASE_ANON_KEY:key,USE_SUPABASE:!!(use&&url&&key)};
 })();

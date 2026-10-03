@@ -14,7 +14,7 @@
 <body data-view="home">
 <!-- ANNOUNCEMENT -->
 <div class="announce">
-<p><span class="dot"></span> Mega Tech Fest — Up to 40% off + Free Express Shipping over ₦124,740 <a href="#/deals">Shop deals →</a></p>
+<p><span class="dot"></span> Mega Tech Fest — Up to 40% off + Free Standard Shipping over ₦124,740 <a href="#/deals">Shop deals →</a></p>
 </div>
 
 <!-- HEADER -->
@@ -95,7 +95,7 @@
 </div>
 </section>
 <div class="container perks">
-<div class="perk"><i>🚚</i><div><b>Free Express Shipping</b><small>On orders over ₦124,740</small></div></div>
+<div class="perk"><i>🚚</i><div><b>Free Standard Shipping</b><small>On orders over ₦124,740</small></div></div>
 <div class="perk"><i>🛡️</i><div><b>2-Year Warranty</b><small>On every device</small></div></div>
 <div class="perk"><i>↩️</i><div><b>30-Day Returns</b><small>No questions asked</small></div></div>
 <div class="perk"><i>💬</i><div><b>24/7 Expert Support</b><small>Real humans, fast</small></div></div>
@@ -270,6 +270,7 @@
 <div class="co-card" data-step="2"><h3>2 • Delivery method</h3><label class="radio"><input type="radio" name="ship" value="0" checked /> Standard (3–5 days) — Free over ₦124,740</label><label class="radio"><input type="radio" name="ship" value="4410" /> Express (24h metro) — ₦4,410</label><label class="radio"><input type="radio" name="ship" value="10080" /> Same-day Lagos — ₦10,080</label><input name="note" placeholder="Delivery note (gate, landmark) — optional" /></div>
 <div class="co-card mockpay" data-step="3"><h3>3 • Payment method <span class="pill warn">MOCK — no real charge</span></h3><p class="hint">Clearly marked mock step. Supabase + Paystack replaces this next stage.</p><label class="radio"><input type="radio" name="pay" value="card" checked /> Card / Transfer (mock Paystack)</label><div class="co-row" id="mockCard"><input name="cardnum" inputmode="numeric" placeholder="Card 0000 0000 0000 0000" /><input name="exp" placeholder="MM/YY + CVV" /></div><label class="radio"><input type="radio" name="pay" value="pod" /> Pay on delivery</label><input name="coupon" id="coupon" placeholder="Coupon (try VOLT10)" /></div>
 <div class="co-card" data-step="4"><h3>4 • Final order review</h3><div id="reviewBox"></div></div>
+<small id="couponFeedback" class="hint" role="status" aria-live="polite"></small>
 <p class="form-err" id="coErr"></p>
 <div class="pd-cta"><button class="btn btn-ghost" id="backShop" type="button">← Cart</button><button class="btn btn-primary btn-lg" id="placeOrder">Pay (mock) + Place order →</button></div>
 </form>

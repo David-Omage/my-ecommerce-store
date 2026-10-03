@@ -21,6 +21,14 @@ const ORDER_SELECT="id,order_no,email,contact_name,phone,address,city,state,note
 
 window.Api={
   isLive:live,
+  async validateCoupon(code,subtotal){
+    code=String(code||"").trim().toUpperCase();
+    if(!code)return {valid:true,percentOff:0};
+    if(!live())return code==="VOLT10"?{valid:true,percentOff:10}:{valid:false,percentOff:0};
+    const {data,error}=await window.SB.from("coupons").select("code,percent_off,min_subtotal,active,expires_at").eq("code",code).maybeSingle();fail(error);
+    const valid=!!data?.active&&(!data.expires_at||new Date(data.expires_at).getTime()>Date.now())&&Number(subtotal)>=Number(data.min_subtotal||0);
+    return {valid,percentOff:valid?Number(data.percent_off)||0:0};
+  },
   async products(){if(live()){const {data,error}=await window.SB.from("products").select(PRODUCT_SELECT).eq("is_active",true).order("id");if(error)throw error;if(data?.length)return data.map(mapProduct);}return window.MOCK_PRODUCTS;},
   async product(id){if(live()){const {data,error}=await window.SB.from("products").select(PRODUCT_SELECT).eq("id",id).maybeSingle();if(error)throw error;if(data)return mapProduct(data);}return window.MOCK_PRODUCTS.find(p=>p.id===+id);},
   async profile(userId){requireUser();const {data,error}=await window.SB.from("profiles").select("id,full_name,phone").eq("id",userId).maybeSingle();fail(error);return data;},

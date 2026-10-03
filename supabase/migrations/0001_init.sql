@@ -189,6 +189,8 @@ as $$
 declare
   c_rate   constant numeric := 1400;   -- mirrors js/config.js RATE
   c_disc   constant numeric := 0.9;    -- mirrors js/config.js DISCOUNT
+  c_free_ship constant numeric := 124740; -- mirrors js/config.js FREE_SHIP
+  c_standard_ship constant numeric := 4410; -- mirrors js/config.js STANDARD_SHIP
   v_items  jsonb := coalesce(payload->'items','[]'::jsonb);
   v_coupon text  := nullif(upper(trim(coalesce(payload->>'coupon',''))),'');
   v_pct    int   := 0;
@@ -217,13 +219,20 @@ begin
      where code = v_coupon and active
        and (expires_at is null or expires_at > now())
        and v_sub >= min_subtotal;
-    v_pct := coalesce(v_pct,0);
+    if not found then raise exception 'create_order: invalid coupon'; end if;
   end if;
-  if v_pct > 0 then v_disc := round(v_sub * v_pct / 100.0, 2); end if;
+  if coalesce(v_pct,0) > 0 then v_disc := round(v_sub * v_pct / 100.0, 2); end if;
 
-  -- shipping (validated against the allowed methods)
-  v_ship := case coalesce(payload->>'shipOpt','0')
-              when '4410' then 4410 when '10080' then 10080 else 0 end;
+  -- Standard shipping follows the cart threshold; premium options use fixed rates.
+  if coalesce(payload->>'shipOpt','0') = '4410' then
+    v_ship := 4410;
+  elsif coalesce(payload->>'shipOpt','0') = '10080' then
+    v_ship := 10080;
+  elsif coalesce(payload->>'shipOpt','0') = '0' then
+    v_ship := case when v_sub >= c_free_ship then 0 else c_standard_ship end;
+  else
+    raise exception 'create_order: invalid shipping option';
+  end if;
   v_total := v_sub - v_disc + v_ship;
 
   loop
