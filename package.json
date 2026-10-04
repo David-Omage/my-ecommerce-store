@@ -4,6 +4,7 @@
   "description": "> Polished responsive storefront for premium electronics.\r > **Status:** v1.3 — Supabase connected via env vars (`.env` → `js/env.js`). Project reachable; schema still to be applied before live data flows — see **[SUPABASE_SETUP.md](SUPABASE_SETUP.md)**.\r > **Preview:** `http://localhost:8000/` via `python -m http.server 8000`",
   "main": "app.js",
   "scripts": {
+    "build": "node scripts/build-env.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
