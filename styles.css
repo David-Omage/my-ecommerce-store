@@ -225,6 +225,14 @@ footer a:hover{color:#fff}
 #orderDetail{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
 #view-checkout,#view-account,#view-confirm{display:none}
 body[data-view=checkout] #view-checkout,body[data-view=account] #view-account,body[data-view=confirm] #view-confirm{display:block}
+body[data-view=checkout] .storefront-only,body[data-view=confirm] .storefront-only{display:none!important}
+body[data-view=checkout] .main-nav,body[data-view=checkout] .searchbar,
+body[data-view=confirm] .main-nav,body[data-view=confirm] .searchbar{display:none}
+body[data-view=checkout],body[data-view=confirm]{padding-bottom:0}
+.checkout-page{min-height:calc(100vh - 72px)}
+.checkout-heading{display:grid;justify-items:start;gap:8px;margin:0 0 22px}
+.checkout-heading h1{font-size:clamp(2rem,4vw,2.8rem)}
+.checkout-heading p{margin:0;color:var(--muted)}
 body[data-view=checkout] #products,body[data-view=account] #products,body[data-view=confirm] #products,
 body[data-view=checkout] #deals,body[data-view=account] #deals,body[data-view=confirm] #deals,
 body[data-view=checkout] #categories,body[data-view=account] #categories,body[data-view=confirm] #categories,

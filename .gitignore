@@ -16,3 +16,5 @@ js/env.js
 # Supabase CLI local state
 supabase/.temp/
 supabase/.branches/
+.vercel
+.env*

@@ -38,6 +38,16 @@ try{
  this.couponStatus={code,valid:false,percentOff:0};if(feedback)feedback.textContent="Could not verify this coupon. Please retry or remove it before continuing.";this.totals();return false;
 }
 },
+async sendConfirmationEmail(order){
+if(!window.Api.isLive())return {sent:false,demo:true};
+const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),11000);
+try{
+ const response=await fetch("/api/send-order-confirmation",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({orderId:order.id,recipient:order.email,name:order.name,total:order.total}),signal:controller.signal});
+ const result=await response.json().catch(()=>null);
+ return {sent:!!response.ok&&result?.ok===true,demo:false};
+}catch{return {sent:false,demo:false};}
+finally{clearTimeout(timeout);}
+},
 bind(){const form=document.getElementById("coForm");
 form?.addEventListener("input",e=>{
  if(e.target?.id!=="coupon"){this.totals();return;}
@@ -64,6 +74,8 @@ form?.addEventListener("submit",async e=>{
     document.getElementById("cfShip").innerHTML=`${this.esc(saved.address)}, ${this.esc(saved.city)}, ${this.esc(saved.state)}<br><small>${this.esc(saved.shipLabel)} • ${this.esc(saved.phone)}${saved.note?` • Note: ${this.esc(saved.note)}`:""}</small>`;
     document.getElementById("cfEta").innerHTML=`<b>${this.esc(saved.eta)}</b><br><small>Standard free over ₦124,740</small>`;
     document.getElementById("cfTotal").innerHTML=`<div class="t-row"><span>Subtotal</span><b>${U.fmtN(saved.sub)}</b></div><div class="t-row"><span>Discount</span><span>−${U.fmtN(saved.disc)}</span></div><div class="t-row"><span>Shipping</span><span>${saved.ship===0?"Free":U.fmtN(saved.ship)}</span></div><div class="t-row grand"><span>Total (mock payment)</span><b>${U.fmtN(saved.total)}</b></div>`;
+    const emailResult=await this.sendConfirmationEmail(saved),emailStatus=document.getElementById("confirmEmailStatus");
+    if(emailStatus){emailStatus.dataset.status=emailResult.demo?"demo":emailResult.sent?"sent":"failed";emailStatus.textContent=emailResult.demo?"Demo order confirmed. No email was sent.":emailResult.sent?`Order confirmed. A confirmation email was sent to ${saved.email}.`:"Order confirmed, but the confirmation email could not be sent. Your order is still confirmed.";}
     document.getElementById("viewOrderBtn").href="#/account/orders/"+encodeURIComponent(saved.id);location.hash="#/confirm";
   }catch(error){if(/coupon/i.test(error.message||"")){const message="Coupon rejected. It is unknown, inactive, expired, or below its minimum order value.";document.getElementById("couponFeedback").textContent=message;err.textContent=message;}else err.textContent=error.message||"Could not place this order. Please try again.";}
 });
