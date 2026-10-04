@@ -5,7 +5,7 @@
 // same window.APP_CONFIG shape — only the source of the two Supabase values moved.
 // With no credentials present the app stays 100% on MOCK data.
 (function(){
-  var env=window.__ENV__||{};
+  var env=Object.assign({},window.__ENV__||{},window.ENV||{});
   var url=env.SUPABASE_URL||"";
   var key=env.SUPABASE_PUBLISHABLE_KEY||env.SUPABASE_ANON_KEY||"";
   // USE_SUPABASE is explicit when set, otherwise auto-on once both values exist.
