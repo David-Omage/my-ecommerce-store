@@ -187,6 +187,49 @@ The `handle_new_user` trigger in `0001_init.sql` creates a profile row when a us
 
 ---
 
+## Shared website/mobile cart (migration 0004)
+
+Signed-in carts use `public.cart_items`; anonymous website carts continue to stay in
+`localStorage`. The clients subscribe only to Realtime `INSERT` and `UPDATE` events. A
+removal sets the owner's `deleted_at` timestamp instead of issuing SQL `DELETE`; RLS
+authorizes this update, while clients never subscribe to unfiltered DELETE events (whose
+payloads do not receive the same row-level authorization). Clients hide tombstones and
+restore them by setting `deleted_at` back to null when an item is added again. Tombstones
+remain until restored or removed by a related user/product cascade, so manual hard deletes
+will not notify active clients; they reconcile on the next refresh. This trades storage
+cleanup for an RLS-authorized removal event without introducing a private Broadcast system.
+Pending signed-in edits are journaled per account on-device and overlaid on server reads
+until the corresponding exact quantity/removal is confirmed, preventing a failed write
+from being lost on refresh. Guest-cart merging uses an idempotency receipt so a retry does
+not add the same guest quantities again.
+
+Before enabling sync on a Supabase project, review and apply
+`supabase/migrations/0004_shared_cart.sql` after migrations 0001–0003. For a local or
+non-production project, link the CLI to that project and run `supabase db push`, or paste
+the contents of that migration into **SQL Editor → New query** for that project. Confirm
+`cart_items` has RLS enabled and appears in `supabase_realtime` before deploying both
+clients. This change does not modify `create_order`; checkout continues to recompute order
+prices and totals from the product catalog.
+
+Migration 0004 has not been applied as part of this code change. Do not point `supabase db push`
+at production until the migration and its RLS rules have been reviewed and validated against
+a non-production project.
+
+The migration fails before DDL if its target cart objects already exist; `IF NOT EXISTS`
+would not reconcile an incompatible manual/partial install. Inspect such objects and
+reconcile them explicitly before applying. The migration does not modify orders, products,
+or checkout.
+
+Run `supabase/tests/cart_items_contract.test.sql` with `supabase test db` on a local
+Supabase stack. Run `node scripts/test-cart-sync.mjs` for a browser-free website test of
+failed-write retention and add/update/removal reconciliation. `node scripts/check-cart-sync.mjs` is a static guardrail only; it cannot
+prove database policy behavior or Realtime event authorization. For that, the mobile
+project includes `scripts/test-cart-realtime.mjs`, which uses two dedicated local test
+users and refuses non-local URLs. Run it only after the migration has been applied to the
+local database and Realtime is enabled. Do not use production credentials for these tests.
+
+---
+
 ## Troubleshooting
 
 | Symptom | Likely cause / fix |

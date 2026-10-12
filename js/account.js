@@ -17,6 +17,7 @@ async init(){
 async syncSession(session,event,force=false){
   const authUser=session?.user||null;
   if(!authUser){
+    await window.CartSync?.setUser(null);
     this.sessionUserId=null;window.Store.setUser(null);window.Store.setWish([]);this.addressRows=[];
     const sign=document.getElementById("signinBtn");if(sign)sign.textContent="Sign in";
     window.UI?.badges();if(event==="SIGNED_OUT"&&location.hash.startsWith("#/account"))location.hash="#/";return;
@@ -30,6 +31,7 @@ async syncSession(session,event,force=false){
   const meta=authUser.user_metadata||{};
   let profile={id:authUser.id,full_name:meta.full_name||meta.name||"",phone:meta.phone||""};
   window.Store.setUser({id:authUser.id,email:authUser.email||"",name:profile.full_name,phone:profile.phone});
+  await window.CartSync?.setUser(authUser.id,force);
   const sign=document.getElementById("signinBtn");if(sign)sign.textContent="Hi, "+(profile.full_name||authUser.email||"there").split(" ")[0];
   try{
     const [savedProfile,addresses,wish]=await Promise.all([window.Api.profile(authUser.id),window.Api.addresses(),window.Api.wishlists()]);
